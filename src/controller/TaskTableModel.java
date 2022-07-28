@@ -23,6 +23,26 @@ public class TaskTableModel extends AbstractTableModel{
     public String getColumnName(int columnIndex) {
         return columns[columnIndex];
     }
+    public boolean isCellEditable(int rowIndex, int columnIndex) {
+        return columnIndex == 3;
+    }
+
+    @Override //vai sobreescrever uma funcao que ja foi implementado
+    public Class<?> getColumnClass(int columnIndex) {
+    //aqui ele vai retornar pra interface qual o tipo de dado que vai
+    //estar sendo apresentado na tabela de tarefas
+        if(tasks.isEmpty()){ //se a task estiver vazia, vai ser retornado um tipo objeto
+            return Object.class;
+        }
+        return this.getValueAt(0, columnIndex).getClass(); 
+        //caso nao esteja vazio, ele vai pegar o tipo de classe
+        //e retornar para tabela qual o tipo de dado, quando nao se faz isso
+        //os dados que sao apresentados sao do tipo string
+        //assim se caso houver um tipo boolean, ele nao vai ser renderizado
+        //como um componente grafico mas, como uma string 
+
+    }
+
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         switch(columnIndex){
@@ -48,7 +68,11 @@ public class TaskTableModel extends AbstractTableModel{
                 
         }
     }
-
+    @Override
+    public void setValueAt(Object value, int rowIndex, int columnIndex ) {
+        tasks.get(rowIndex).setisisCompleted((boolean) value);
+    }
+    
     public String[] getColumns() {
         return columns;
     }
