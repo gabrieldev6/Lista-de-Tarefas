@@ -13,14 +13,17 @@ import java.util.ArrayList;
 
 public class TaskController {
     public void save(Task task)  {
-        String sql = "INSERT INTO tasks "
-                    +"name, "
-                    +"description, "
-                    +"notes, "
-                    +"deadline, "
-                    +"createdAt, "
-                    +"updatedAt, "
-                    +"updatedAt) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO `todolist`.`tasks` ("
+                    +"`idProject`,"
+                    +"`name`, "
+                    +"`description`, "
+                    +"`notes`, "
+                    +"`isCompleted`,"
+                    +"`deadline`, "
+                    +"`createdAt`, "
+                    +"`updatedAt`, "
+                    +") VALUES ('?', ?, ?, ?, '?', ?, ?, ?)";
+        //"INSERT INTO `todolist`.`task` (`idProject`, `name`, `description`, `notes`, `isCompleted`, `deadline`, `createdAt`, `updatedAt`) VALUES ('1', 'tarefa2', 'descricao teste', 'notas', '0', '27/07/2022', '27/07/2022', '27/07/2022');"
         Connection connection = null;
         PreparedStatement statement = null;
         
@@ -28,19 +31,18 @@ public class TaskController {
             
             connection = ConnectionFactory.getConnection();
             statement = connection.prepareStatement(sql);
-            statement.setInt(1, task.getIdProject());
+            statement.setInt(1, 1);
             statement.setString(2, task.getName());
             statement.setString(3, task.getDescription());
-            statement.setBoolean(4, task.getisIsCompleted());
-            statement.setString(5, task.getNotes());
+            statement.setString(4, task.getNotes());
+            statement.setBoolean(5, false);
             statement.setString(6, task.getDeadline());
             statement.setString(7, task.getCreatedAt());
             statement.setString(8, task.getUpdatedAt());
-            statement.setInt(9, task.getId());
             statement.execute();
             
         } catch (SQLException error) {
-            throw new RuntimeException("Erro ao executar funcao sql");
+            throw new RuntimeException("Erro ao executar funcao sql"+error);
         
         } finally {
             ConnectionFactory.closeConnection(connection, statement);
@@ -143,6 +145,4 @@ public class TaskController {
         }
         return tasks;
     }
-
-
 }

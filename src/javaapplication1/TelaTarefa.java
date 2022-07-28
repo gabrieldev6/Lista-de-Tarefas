@@ -4,6 +4,13 @@
  */
 package javaapplication1;
 
+import controller.Task;
+import controller.TaskController;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author gabriel
@@ -44,6 +51,11 @@ public class TelaTarefa extends javax.swing.JFrame {
         jLabel1.setText("Tarefa");
 
         jButton1.setLabel("Concluido");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -127,6 +139,31 @@ public class TelaTarefa extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        // TODO add your handling code here:
+        Task task = new Task();
+        TaskController controller = new TaskController();
+        Date dataAtual = new Date();
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        String dataFormatada = dateFormat.format(dataAtual);
+        
+        try {
+            task.setidProject(1);
+            task.setName(jTextField1.getText());
+            task.setDescription(jTextField2.getText());
+            task.setDeadline(jTextField3.getText());
+            task.setNotes(jTextField4.getText());
+            task.setCreatedAt(dataFormatada);
+            task.setUpdatedAt(dataFormatada);
+            
+            controller.save(task);
+            JOptionPane.showMessageDialog(rootPane, "salvo com sucesso");
+        } catch(Exception erro) {
+            
+            JOptionPane.showMessageDialog(rootPane, erro.getMessage());
+        }
+    }//GEN-LAST:event_jButton1MouseClicked
 
     /**
      * @param args the command line arguments

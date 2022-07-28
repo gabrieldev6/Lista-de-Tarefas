@@ -425,7 +425,7 @@ public final class TelaPrincipal extends javax.swing.JFrame {
         List<Project> projects = projectController.getAll();
         projectModel.clear();
         
-        for(int i=0; i< projects.size();i++){
+        for(int i=0; i< projects.size(); i++){
             
             Project project = projects.get(i);
             projectModel.addElement(project);
